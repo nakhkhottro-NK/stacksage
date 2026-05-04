@@ -130,11 +130,9 @@ def quick_compare():
     result = compare_technologies(techs, domain)
     return jsonify({'comparison': result})
 
+with app.app_context():
+    init_db()
 
 if __name__ == '__main__':
-    init_db()
-    print("=" * 50)
-    print("  StackSage - GitHub Trend Intelligence")
-    print("  http://127.0.0.1:5000")
-    print("=" * 50)
     app.run(debug=True, port=5000)
+
