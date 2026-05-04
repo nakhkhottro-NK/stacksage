@@ -1,4 +1,4 @@
-whats """
+
 config.py — StackSage Configuration
 Reads from environment variables when deployed live.
 """
