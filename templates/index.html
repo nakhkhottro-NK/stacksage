@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+  <div class="hero-badge"><i class="fas fa-bolt"></i> <span data-i18n="hero_badge">AI-Powered Analysis</span></div>
+  <h1 class="hero-title">
+    <span data-i18n="hero_title1">Discover What</span><br>
+    <span class="gradient-text" data-i18n="hero_title2">Developers Build</span>
+  </h1>
+  <p class="hero-sub" data-i18n="hero_sub">
+    Search any technology domain. Get real GitHub data, AI-generated trend insights,
+    interactive charts, and a personalized learning roadmap — instantly.
+  </p>
+
+  <form action="/analyze" method="POST" class="search-form" id="searchForm">
+    <div class="search-wrapper">
+      <i class="fas fa-search search-icon"></i>
+      <input
+        type="text" name="query" id="queryInput"
+        data-i18n="search_placeholder"
+        placeholder="e.g. machine learning, web3, rust game engine…"
+        class="search-input" required autocomplete="off"
+      />
+      <input type="hidden" name="domain" id="domainInput"/>
+      <button type="submit" class="search-btn" id="searchBtn">
+        <span class="btn-text"><i class="fas fa-rocket"></i> <span data-i18n="search_btn">Analyze</span></span>
+        <span class="btn-loading hidden"><i class="fas fa-spinner fa-spin"></i></span>
+      </button>
+    </div>
+  </form>
+
+  <div class="quick-tags">
+    <span class="tag-label" data-i18n="try_label">Try:</span>
+    {% for tag in ['machine learning', 'rust', 'react', 'blockchain', 'game engine', 'llm', 'devops', 'flutter'] %}
+      <button class="tag" onclick="setQuery('{{ tag }}')">{{ tag }}</button>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="features">
+  <div class="feat-card">
+    <i class="fas fa-code-branch feat-icon"></i>
+    <h3 data-i18n="feat1_title">Live GitHub Data</h3>
+    <p data-i18n="feat1_desc">Pulls real-time repository data — stars, forks, languages, topics, and commit activity.</p>
+  </div>
+  <div class="feat-card">
+    <i class="fas fa-brain feat-icon"></i>
+    <h3 data-i18n="feat2_title">Claude AI Insights</h3>
+    <p data-i18n="feat2_desc">Advanced prompt engineering extracts trends, rising stars, gaps, and future predictions.</p>
+  </div>
+  <div class="feat-card">
+    <i class="fas fa-chart-bar feat-icon"></i>
+    <h3 data-i18n="feat3_title">5 Visual Charts</h3>
+    <p data-i18n="feat3_desc">Stars ranking, language distribution, activity scatter, topic word cloud, and timeline.</p>
+  </div>
+  <div class="feat-card">
+    <i class="fas fa-road feat-icon"></i>
+    <h3 data-i18n="feat4_title">Learning Roadmap</h3>
+    <p data-i18n="feat4_desc">AI generates a custom 3-phase learning path based on the actual tools used by top projects.</p>
+  </div>
+</section>
+
+{% if recent_searches %}
+<section class="recent-section">
+  <h2 class="section-title"><i class="fas fa-history"></i> <span data-i18n="recent_title">Recent Searches</span></h2>
+  <div class="recent-grid">
+    {% for s in recent_searches %}
+    <a href="/analyze" class="recent-card" onclick="event.preventDefault(); setQuery('{{ s.query }}'); document.getElementById('searchForm').submit();">
+      <div class="recent-query">{{ s.query }}</div>
+      <div class="recent-meta">{{ s.timestamp }}</div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% endblock %}

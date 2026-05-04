@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}StackSage{% endblock %} — GitHub Trend Intelligence</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;500;600&family=Noto+Sans+Bengali:wght@400;600&family=Noto+Sans+SC:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    .lang-switcher {
+      display: flex; align-items: center; gap: 4px;
+      background: var(--bg-3); border: 1px solid var(--border);
+      border-radius: 8px; padding: 3px;
+    }
+    .lang-btn {
+      background: transparent; border: none; color: var(--text-muted);
+      padding: 4px 10px; border-radius: 5px; cursor: pointer;
+      font-size: 0.78rem; font-weight: 600; font-family: var(--font-body);
+      transition: all 0.2s; letter-spacing: 0.3px;
+    }
+    .lang-btn:hover { color: var(--text); background: var(--bg-2); }
+    .lang-btn.lang-active { background: var(--accent); color: #0d1117; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="nav-brand">
+    <i class="fas fa-satellite-dish"></i>
+    <span>Stack<span class="accent">Sage</span></span>
+  </a>
+  <div class="nav-links">
+    <a href="/" class="nav-link {% if request.endpoint == 'index' %}active{% endif %}">
+      <i class="fas fa-search"></i> <span data-i18n="nav_explore">Explore</span>
+    </a>
+    <a href="/history" class="nav-link {% if request.endpoint == 'history' %}active{% endif %}">
+      <i class="fas fa-history"></i> <span data-i18n="nav_history">History</span>
+    </a>
+    <a href="/bookmarks" class="nav-link {% if request.endpoint == 'bookmarks' %}active{% endif %}">
+      <i class="fas fa-bookmark"></i> <span data-i18n="nav_bookmarks">Bookmarks</span>
+    </a>
+    <div class="lang-switcher">
+      <button class="lang-btn lang-active" data-lang="en" onclick="applyLanguage('en')">EN</button>
+      <button class="lang-btn" data-lang="zh" onclick="applyLanguage('zh')">中文</button>
+      <button class="lang-btn" data-lang="bn" onclick="applyLanguage('bn')">বাংলা</button>
+    </div>
+  </div>
+</nav>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flash-container">
+      {% for cat, msg in messages %}
+        <div class="flash flash-{{ cat }}">
+          <i class="fas fa-{% if cat == 'error' %}exclamation-circle{% else %}check-circle{% endif %}"></i>
+          {{ msg }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<main class="container">
+  {% block content %}{% endblock %}
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span><i class="fas fa-satellite-dish"></i> StackSage</span>
+    <span>GitHub API  x  Claude AI  x  Flask  x  Python</span>
+    <span data-i18n="footer_dev">Developed by NK</span>
+  </div>
+</footer>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lang.js') }}"></script>
+</body>
+</html>
