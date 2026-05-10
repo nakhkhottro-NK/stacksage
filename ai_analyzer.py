@@ -15,7 +15,7 @@ def analyze_repos(query, repos):
     except Exception as e:
         return f"AI unavailable: {str(e)}"
 
-def generate_learning_path(query, repos):
+def generate_learning_path(query, repos, topics=None):
     try:
         tools = list(set([r.get('language','') for r in repos if r.get('language')]))[:5]
         prompt = f"Create 3-phase learning roadmap for '{query}'. Tools: {', '.join(tools)}"
