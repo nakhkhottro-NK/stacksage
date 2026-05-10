@@ -20,7 +20,7 @@ def analyze_repos(query, repos, *args, **kwargs):
     try:
         repo_info = _get_repo_info(repos)
         prompt = f"Analyze '{query}' GitHub domain.\nTop repos:\n{repo_info}\n\nProvide: 1)Trends 2)Rising Stars 3)Gaps 4)Future"
-        response = client.models.generate_content(model="gemini-2.0-flash", contents=prompt)
+        response = client.models.generate_content(model="gemini-1.5-flash", contents=prompt)
         return response.text
     except Exception as e:
         return f"AI unavailable: {str(e)}"
@@ -32,7 +32,7 @@ def generate_learning_path(query, repos, *args, **kwargs):
         else:
             tools = []
         prompt = f"Create 3-phase learning roadmap for '{query}'. Tools: {', '.join(tools) if tools else 'Various'}"
-        response = client.models.generate_content(model="gemini-2.0-flash", contents=prompt)
+        response = client.models.generate_content(model="gemini-1.5-flash", contents=prompt)
         return response.text
     except Exception as e:
         return f"Learning path unavailable: {str(e)}"
@@ -46,7 +46,7 @@ def compare_technologies(query, repos, *args, **kwargs):
                     l = r.get('language','Unknown')
                     langs[l] = langs.get(l,0) + 1
         prompt = f"Compare technologies in '{query}'. Distribution: {langs if langs else 'Various'}"
-        response = client.models.generate_content(model="gemini-2.0-flash", contents=prompt)
+        response = client.models.generate_content(model="gemini-1.5-flash", contents=prompt)
         return response.text
     except Exception as e:
         return f"Comparison unavailable: {str(e)}"
